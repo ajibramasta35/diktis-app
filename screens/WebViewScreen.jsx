@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { useNavigation, useScrollToTop } from '@react-navigation/native';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, RefreshControl, } from 'react-native';
 
 const WebViewScreen = () => {
   const navigation = useNavigation();
@@ -26,12 +26,25 @@ const WebViewScreen = () => {
     }
   };
 
+    // scroll on refresh
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 300);
+    }, []);
+
   return (
     <ScrollView
       style={styles.containerscroll}
       ref={scrollRef}
       onScroll={handleScroll}
       scrollEventThrottle={16}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     >
       <View style={styles.container}>
         <Text style={styles.title}>

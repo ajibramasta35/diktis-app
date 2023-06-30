@@ -135,7 +135,7 @@ const HomeScreen = () => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000);
+    }, 300);
   }, []);
 
   const handleSearch = () => {
