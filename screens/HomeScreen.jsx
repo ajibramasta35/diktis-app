@@ -9,6 +9,7 @@ import {
   Dimensions,
   TextInput,
   ImageBackground,
+  RefreshControl,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { useNavigation } from '@react-navigation/native';
@@ -39,6 +40,9 @@ const HomeScreen = () => {
     navigation.navigate('WebViewScreen', { url });
   };
 
+  const handleProfile = () => {
+    navigation.navigate('ProfileScreen');
+  };
 
   const card_template2 = {
     width: '100%',
@@ -124,11 +128,27 @@ const HomeScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState(AplikasiItems);
 
+  // scroll on refresh
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   const handleSearch = () => {
+    // Fungsi Filter aplikasi
     const filtered = AplikasiItems.filter((item) =>
       item.NamaAplikasi.toLowerCase().includes(searchText.toLowerCase()),
     );
     setFilteredItems(filtered);
+  };
+
+  // Fungsi clear form
+  const clearSearchText = () => {
+    setSearchText('');
   };
 
   return (
@@ -149,7 +169,8 @@ const HomeScreen = () => {
                 source={require('../assets/icons/pusakalogo.png')}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+
+            <TouchableOpacity onPress={handleProfile}>
               <Image
                 style={styles.icon}
                 source={require('../assets/icons/User.png')}
@@ -165,15 +186,27 @@ const HomeScreen = () => {
                 handleSearch(text); // Panggil fungsi handleSearch setiap kali teks berubah
               }}
               placeholder="Cari aplikasi.."
+              clearButtonMode="always"
               value={searchText}
               onSubmitEditing={handleSearch}
             />
+            {searchText !== '' && (
+              <TouchableOpacity
+                onPress={clearSearchText}
+                style={styles.clearButton}
+              >
+                <Text style={styles.clearButtonText}>Hapus</Text>
+              </TouchableOpacity>
+            )}
           </TouchableOpacity>
 
           <ScrollView
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             style={[styles.container3]}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           >
             <Carousel
               data={carouselItems}
@@ -186,8 +219,6 @@ const HomeScreen = () => {
             />
             <View style={styles.containerInner2}>
               <Text style={styles.subtitle}>Pilihan Aplikasi</Text>
-              <Text style={styles.subtitle2}>untuk anda..</Text>
-
             </View>
             <View
               showsVerticalScrollIndicator={false}
@@ -303,8 +334,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-  containerInner3:{
-    paddingBottom:10,
+  containerInner3: {
+    paddingBottom: 10,
   },
   container3: {
     flex: 1,
@@ -364,8 +395,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 10,
     paddingTop: 25,
-    borderTopLeftRadius:30,
-
+    borderTopLeftRadius: 30,
 
     // margin:0,
   },
@@ -378,10 +408,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fafafa',
     paddingLeft: 10,
-    borderTopRightRadius:30,
+    borderTopRightRadius: 30,
     paddingRight: 20,
     paddingTop: 25,
-
 
     // margin:0,
   },
@@ -397,18 +426,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   subtitle: {
-    paddingTop:20,
+    paddingTop: 20,
     fontSize: 20,
     color: 'black',
     fontWeight: 600,
   },
   subtitle2: {
-    paddingTop:20,
+    paddingTop: 20,
     fontSize: 12,
     color: '#138573',
     fontWeight: 300,
   },
 
+  gradientOverlay: {
+    ...StyleSheet.absoluteFillObject,
+  },
   card_template: {
     width: '100%',
     boxShadow: '10px 10px 17px -12px rgba(0,0,0,0.75)',
@@ -478,6 +510,7 @@ const styles = StyleSheet.create({
     color: '#010E2D',
     fontFamily: 'Raleway-Bold',
     fontSize: 12,
+    textAlign: 'center',
   },
   icon: {
     width: 50,
@@ -490,6 +523,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: 'white',
     color: 'black',
+  },
+  clearButton: {
+    position: 'absolute',
+    right: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    paddingRight: 10,
+  },
+  clearButtonText: {
+    color: 'blue',
   },
 });
 

@@ -7,8 +7,6 @@ import {
   ImageBackground,
   Image,
   TextInput,
-  Button,
-  ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
