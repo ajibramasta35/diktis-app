@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { useNavigation } from '@react-navigation/native';
+
 // import Text from '../assets/fonts'
 
 const { width, height } = Dimensions.get('window');
@@ -113,7 +114,7 @@ const HomeScreen = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <View style={[styles.carouselItem, { width: carWidth }]}>
+      <TouchableOpacity style={[styles.carouselItem, { width: carWidth }]}>
         <Image
           style={[
             styles.carouselImage,
@@ -121,7 +122,7 @@ const HomeScreen = () => {
           ]}
           source={item.image}
         />
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -161,6 +162,7 @@ const HomeScreen = () => {
           style={styles.container2}
           source={require('../assets/img/bg1.png')}
         ></ImageBackground>
+        
         <View style={styles.container4}>
           <View style={styles.containerInner1}>
             <TouchableOpacity>
@@ -169,6 +171,8 @@ const HomeScreen = () => {
                 source={require('../assets/icons/pusakalogo.png')}
               />
             </TouchableOpacity>
+
+            <Text style={styles.Bigtitle}>MINI PUSAKA</Text>
 
             <TouchableOpacity onPress={handleProfile}>
               <Image
@@ -416,9 +420,9 @@ const styles = StyleSheet.create({
   },
 
   Bigtitle: {
-    fontSize: 21,
-    color: '#1f1f1f',
-    fontFamily: 'Raleway-Medium',
+    fontSize: 18,
+    color: '#FAFAFA',
+    fontFamily: 'Raleway-Bold',
   },
   title: {
     fontSize: 24,
@@ -480,7 +484,7 @@ const styles = StyleSheet.create({
     // bottom: 0,
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   card_image2: {
     width: '100%',

@@ -17,30 +17,9 @@ import LoginScreen from './screens/LoginScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const screenOptions = {
-  tabBarStyle: {
-    paddingTop: 7,
-    height: 60,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    borderLeftWidth: 0.2,
-    borderRightWidth: 0.2,
-    position: 'absolute',
-    overflow: 'hidden',
-  },
-  tabBarLabelStyle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-
-  tabBarInactiveTintColor: '#999999',
-  tabBarActiveTintColor: '#00CC8E',
-};
-
 const App = () => {
   const [statusBarColor, setStatusBarColor] = useState('dark-content');
-  const backgroundColor = '#FFC542'; // Replace with your background color
+  const backgroundColor = '#e5e5e5'; // Replace with your background color
 
   useEffect(() => {
     const isDarkColor = isColorDark(backgroundColor);

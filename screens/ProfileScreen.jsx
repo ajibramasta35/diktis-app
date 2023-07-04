@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   Button,
+  RefreshControl,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -16,12 +17,22 @@ const DataProfile = [
   {
     image: require('../assets/img/fotoprofil.jpg'),
     nama: 'Ririrn Suhirin',
-    status: 'lagi Pingin nyantai aja',
+    status: 'Semangat Membangun Negeri',
   },
   // Tambahkan item carousel lainnya sesuai kebutuhan
 ];
 
 const ProfileScreen = () => {
+  // Handle screen refresh
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 300);
+  }, []);
+
   // Fungsi HandleLogout
   const navigation = useNavigation();
 
@@ -44,16 +55,26 @@ const ProfileScreen = () => {
     setModalVisible(!isModalVisible);
   };
 
+
   return (
     <>
       <View style={styles.container}>
-        <ScrollView style={styles.containerscroll}>
+        <ScrollView
+          style={styles.containerscroll}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.container1}>
-            <Image source={DataProfile[0].image} />
-            <LinearGradient
-              colors={['rgba(0, 0, 0, 0.7)', 'transparent']}
-              style={styles.gradientOverlay}
+            <Image
+              blurRadius={10}
+              style={{ opacity: 1, resizeMode: 'cover' }}
+              source={require('../assets/img/bg-stack.png')}
             />
+            {/* <LinearGradient
+              colors={['transparent', '#1F1F1F']}
+              style={styles.gradientOverlay}
+            /> */}
           </View>
           <View style={styles.container}>
             <View style={styles.container3}>
@@ -62,7 +83,13 @@ const ProfileScreen = () => {
               <Text style={styles.statussekarang}>{DataProfile[0].status}</Text>
             </View>
             <TouchableOpacity style={styles.container4}>
-              <Text>Pengaturan</Text>
+              <View style={styles.containerIcon}>
+                <Image
+                  style={styles.icon2}
+                  source={require('../assets/icons/setting-gears.png')}
+                ></Image>
+                <Text>Pengaturan</Text>
+              </View>
               <Image
                 style={styles.icon}
                 source={require('../assets/icons/chevron.png')}
@@ -70,7 +97,13 @@ const ProfileScreen = () => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.container4} onPress={toggleContent}>
-              <Text>Tentang Aplikasi</Text>
+              <View style={styles.containerIcon}>
+                <Image
+                  style={styles.icon2}
+                  source={require('../assets/icons/information.png')}
+                ></Image>
+                <Text>Tentang Aplikasi</Text>
+              </View>
               <Image
                 style={styles.icon}
                 source={require('../assets/icons/chevron.png')}
@@ -86,7 +119,13 @@ const ProfileScreen = () => {
               </View>
             )}
             <TouchableOpacity style={styles.container4} onPress={toggleModal}>
-              <Text>Keluar Aplikasi</Text>
+              <View style={styles.containerIcon}>
+                <Image
+                  style={styles.icon2}
+                  source={require('../assets/icons/logout.png')}
+                ></Image>
+                <Text>Keluar Aplikasi</Text>
+              </View>
               <Image
                 style={styles.icon}
                 source={require('../assets/icons/chevron.png')}
@@ -131,6 +170,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  containerIcon: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
   container1: {
     flex: 1,
     height: 250,
@@ -143,9 +187,8 @@ const styles = StyleSheet.create({
     height: 300,
     alignItems: 'center',
     backgroundColor: 'white',
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
-    marginTop: -50,
+    borderRadius: 25,
+    marginTop: -100,
     marginBottom: 10,
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffset: {
@@ -165,7 +208,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: 'white',
     marginTop: 10,
-    borderRadius: 5,
+    borderRadius: 15,
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffset: {
       width: 0,
@@ -211,8 +254,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Regular',
   },
   icon: {
+    width: 25,
+    height: 25,
+  },
+  icon2: {
     width: 20,
     height: 20,
+    marginRight: 10,
   },
   hiddenContent: {
     width: '90%',

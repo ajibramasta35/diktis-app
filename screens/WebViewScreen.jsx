@@ -50,7 +50,6 @@ const WebViewScreen = () => {
         <Text style={styles.title}>
           Aplikasi Diktis akan ditampilkan disini
         </Text>
-        <Text>Aplikasi Diktis akan ditampilkan disini</Text>
       </View>
     </ScrollView>
   );
@@ -64,13 +63,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'red',
+    backgroundColor: '#0ADBBB',
     minHeight: 1000,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color:'white',
+    textAlign:'center'
   },
 });
 
